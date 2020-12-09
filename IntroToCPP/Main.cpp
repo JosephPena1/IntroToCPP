@@ -20,7 +20,7 @@ bool GuessingGame()
 		std::cout << "> ";
 		std::cin >> answer;
 
-		//if yes end game. if no, Higher or lower
+		//if yes end game. if no, get input for Higher or Lower
 		switch (answer)
 		{
 		case 1:
