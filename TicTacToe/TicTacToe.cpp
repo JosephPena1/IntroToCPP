@@ -36,6 +36,7 @@ int main()
     while (!gameOver)
     {
         bool player1Choice = false;
+
         while (!player1Choice)
         {
             for (int row = 0; row < 3; ++row)
@@ -116,6 +117,16 @@ int main()
             (grid[0][2] == player1Icon && grid[1][1] == player1Icon && grid[2][0] == player1Icon))
         {
             std::cout << player1 << " wins!" << std::endl;
+            system("pause");
+            gameOver = true;
+            break;
+        }
+
+        if ((grid[0][0] != '0' && grid[0][1] != '0' && grid[0][2] != '0') &&
+            (grid[1][0] != '0' && grid[1][1] != '0' && grid[1][2] != '0') &&
+            (grid[2][0] != '0' && grid[2][1] != '0' && grid[2][2] != '0'))
+        {
+            std::cout << "Nobody wins!" << std::endl;
             system("pause");
             gameOver = true;
             break;
@@ -203,6 +214,16 @@ int main()
             (grid[0][2] == player2Icon && grid[1][1] == player2Icon && grid[2][0] == player2Icon))
         {
             std::cout << player2 << " wins!" << std::endl;
+            system("pause");
+            gameOver = true;
+            break;
+        }
+
+        if ((grid[0][0] != '0' && grid[0][1] != '0' && grid[0][2] != '0') &&
+            (grid[1][0] != '0' && grid[1][1] != '0' && grid[1][2] != '0') &&
+            (grid[2][0] != '0' && grid[2][1] != '0' && grid[2][2] != '0'))
+        {
+            std::cout << "Nobody wins!" << std::endl;
             system("pause");
             gameOver = true;
             break;
