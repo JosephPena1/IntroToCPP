@@ -1,6 +1,6 @@
 #include <iostream>
 
-void printArray(char arr[][3])
+void printarray(char arr[][3])
 {
     for (int row = 0; row < 3; row++)
     {
@@ -57,6 +57,13 @@ int main()
             std::cin >> player1KeyPress;
             switch (player1KeyPress)
             {
+            case 0:
+                std::cout << "invalid move, try again" << std::endl;
+                player1Row = -1;
+                player1Col = -1;
+                system("pause");
+                system("cls");
+                break;
             case 1:
                 player1Row = 2;
                 player1Col = 0;
@@ -93,8 +100,19 @@ int main()
                 player1Row = 0;
                 player1Col = 2;
                 break;
+            default:
+                std::cout << "invalid move, try again" << std::endl;
+                player1Row = -1;
+                player1Col = -1;
+                system("pause");
+                system("cls");
+                break;
+
             }
-            if (grid[player1Row][player1Col] == player2Icon || grid[player1Row][player1Col] == player1Icon)
+            if (player1Row == -1 || player1Col == -1)
+                player1Choice = false;
+
+            else if (grid[player1Row][player1Col] == player2Icon || grid[player1Row][player1Col] == player1Icon)
             {
                 std::cout << "invalid move, try again" << std::endl;
                 system("pause");
@@ -126,7 +144,7 @@ int main()
             (grid[1][0] != '0' && grid[1][1] != '0' && grid[1][2] != '0') &&
             (grid[2][0] != '0' && grid[2][1] != '0' && grid[2][2] != '0'))
         {
-            std::cout << "Nobody wins!" << std::endl;
+            std::cout << "It's a draw." << std::endl;
             system("pause");
             gameOver = true;
             break;
@@ -219,11 +237,12 @@ int main()
             break;
         }
 
+        //checks to see if there is a draw.
         if ((grid[0][0] != '0' && grid[0][1] != '0' && grid[0][2] != '0') &&
             (grid[1][0] != '0' && grid[1][1] != '0' && grid[1][2] != '0') &&
             (grid[2][0] != '0' && grid[2][1] != '0' && grid[2][2] != '0'))
         {
-            std::cout << "Nobody wins!" << std::endl;
+            std::cout << "It's a draw." << std::endl;
             system("pause");
             gameOver = true;
             break;
