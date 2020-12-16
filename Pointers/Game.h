@@ -8,6 +8,7 @@ public:
 
 	bool getGameOver() { return m_gameOver; }
 	void setGameOver(bool value) { m_gameOver = value; }
+	void drawName(char playerName[],  Character* target);
 
 public:
 
@@ -19,6 +20,8 @@ private:
 
 private:
 	bool m_gameOver;
-	Character m_player1;
-	Character m_player2;
+	char m_player1Name[10];
+	char m_player2Name[10];
+	Character* m_player1;
+	Character* m_player2;
 };
