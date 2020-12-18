@@ -1,5 +1,6 @@
-#include "Game.h"
 #include <iostream>
+#include <fstream>
+#include "Game.h"
 
 void Game::run()
 {
@@ -17,7 +18,10 @@ void Game::run()
 void Game::drawName(char playerName[], Character* target)
 {
 	std::cout << m_player1Name << "'s health: " << m_player1->getHealth() << std::endl;
+	std::cout << m_player1Name << "'s defense: " << m_player1->getDefense() << std::endl;
+	std::cout << std::endl;
 	std::cout << m_player2Name << "'s health: " << m_player2->getHealth() << std::endl;
+	std::cout << m_player2Name << "'s defense: " << m_player2->getDefense() << std::endl;
 	std::cout << std::endl;
 	std::cout << playerName << "'s turn." << std::endl;
 	std::cout << "[1] Attack" << std::endl;
@@ -27,18 +31,41 @@ void Game::drawName(char playerName[], Character* target)
 
 void Game::start()
 {
-	std::cout << "Enter Player 1's name" << std::endl;
+	int startChoice = 0;
+	std::cout << "Would you like to start a new game?" << std::endl;
+	std::cout << "[1] Yes" << std::endl;
+	std::cout << "[2] No" << std::endl;
+	std::cout << std::endl;
 	std::cout << "> ";
-	std::cin >> m_player1Name;
-	system("cls");
+	std::cin >> startChoice;
 
-	std::cout << "Enter Player 2's name" << std::endl;
-	std::cout << "> ";
-	std::cin >> m_player2Name;
-	system("cls");
+	switch (startChoice)
+	{
+	case 1:
+		std::cout << "Enter Player 1's name" << std::endl;
+		std::cout << "> ";
+		std::cin >> m_player1Name;
+		m_player1->nameCharacter(m_player1Name);
+		system("cls");
 
-	m_player1 = new Character(50, 10);
-	m_player2 = new Character(50, 10);
+		std::cout << "Enter Player 2's name" << std::endl;
+		std::cout << "> ";
+		std::cin >> m_player2Name;
+		m_player2->nameCharacter(m_player2Name);
+		system("cls");
+
+		m_player1 = new Character(50, 10, 2);
+		m_player2 = new Character(25, 5, 1);
+
+		m_player1->save();
+		m_player2->save();
+		break;
+
+	case 2:
+		m_player1->load();
+		m_player2->load();
+		break;
+	}
 }
 
 void Game::update()
@@ -59,6 +86,13 @@ void Game::update()
 				m_player1->attack(m_player2);
 				std::cout << m_player2Name << " took " << m_player1->getDamage() << std::endl;
 				player1Choice = 1;
+				break;
+
+			case 2:
+				if (m_player1->incDefense())
+					std::cout << m_player1Name << " uses harden, +2 defense" << std::endl;
+
+				player1Choice = 2;
 				break;
 
 			default:
@@ -88,6 +122,13 @@ void Game::update()
 				m_player2->attack(m_player1);
 				std::cout << m_player1Name << " took " << m_player2->getDamage() << std::endl;
 				player2Choice = 1;
+				break;
+
+			case 2:
+				if (m_player2->incDefense())
+					std::cout << m_player2Name << " uses harden, +2 defense" << std::endl;
+
+				player2Choice = 2;
 				break;
 
 			default:
