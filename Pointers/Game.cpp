@@ -2,7 +2,7 @@
 #include <fstream>
 #include "Game.h"
 
-void Game::run()
+void Game::run() //Put placeholder names for loading file, Make a variable to choose a character to load from
 {
 	start();
 
@@ -29,6 +29,44 @@ void Game::drawName(char playerName[], Character* target)
 	std::cout << "> ";
 }
 
+//Saves player to a binary file.
+bool Game::saveBin()
+{
+	std::fstream file;
+	
+	file.open("save.dat", std::ios::app | std::ios::binary);
+
+	if (!file.is_open())
+		return false;
+
+	file.write((char*)&m_player1, sizeof(Character));
+	file.write((char*)&m_player2, sizeof(Character));
+	file.close();
+	return true;
+}
+
+//loads player from a binary file. [WIP] Save player 2's stats.
+bool Game::loadBin()
+{
+	Character player = Character();
+	std::fstream file;
+
+	file.open("save.dat", std::ios::in | std::ios::binary);
+
+	if (file.is_open())
+		return false;
+
+	file.seekg(sizeof(Character) * 2, std::ios::beg);
+
+	file.read((char*)&player, sizeof(Character));
+
+	std::cout << player.getHealth() << std::endl;
+	std::cout << player.getDamage() << std::endl;
+
+	file.close();
+	return true;
+}
+
 void Game::start()
 {
 	int startChoice = 0;
@@ -45,25 +83,25 @@ void Game::start()
 		std::cout << "Enter Player 1's name" << std::endl;
 		std::cout << "> ";
 		std::cin >> m_player1Name;
-		m_player1->nameCharacter(m_player1Name);
 		system("cls");
 
 		std::cout << "Enter Player 2's name" << std::endl;
 		std::cout << "> ";
 		std::cin >> m_player2Name;
-		m_player2->nameCharacter(m_player2Name);
 		system("cls");
 
 		m_player1 = new Character(50, 10, 2);
 		m_player2 = new Character(25, 5, 1);
 
-		m_player1->save();
-		m_player2->save();
+		saveBin();
+		//m_player1->save();
+		//m_player2->save();
 		break;
 
 	case 2:
-		m_player1->load();
-		m_player2->load();
+		loadBin();
+		//m_player1->load();
+		//m_player2->load();
 		break;
 	}
 }

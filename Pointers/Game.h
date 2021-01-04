@@ -9,6 +9,10 @@ public:
 	bool getGameOver() { return m_gameOver; }
 	void setGameOver(bool value) { m_gameOver = value; }
 	void drawName(char playerName[],  Character* target);
+	char* getName1() { return m_player1Name; }
+	char* getName2() { return m_player2Name; }
+	bool saveBin();
+	bool loadBin();
 
 public:
 

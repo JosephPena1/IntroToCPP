@@ -28,14 +28,6 @@ float Character::takeDamage(float damageAmount)
 	return damageAmount;
 }
 
-void Character::nameCharacter(char name[])
-{
-	for (int i = 0; i < 4; i++)
-	{
-		m_name[i] = name[i];
-	}
-}
-
 bool Character::incDefense()
 {
 	if (m_defense != m_damage - 2)
@@ -65,11 +57,9 @@ bool Character::save()
 	file.open("save.txt", std::ios::out);
 
 	if (!file.is_open())
-	{
 		return 1;
-	}
 
-	file << m_name << std::endl;
+	file << "Placeholder" << std::endl;
 	file << m_health << std::endl;
 	file << m_damage << std::endl;
 	file << m_defense;
@@ -88,10 +78,23 @@ bool Character::load()
 		return 1;
 	}
 
-	file >> m_name;
 	file >> m_health;
 	file >> m_damage;
 	file >> m_defense;
 
 	file.close();
+}
+
+bool Character::saveBinCharacter()
+{
+	std::fstream file;
+
+	return false;
+}
+
+bool Character::loadBinCharacter()
+{
+	std::fstream file;
+
+	return false;
 }
