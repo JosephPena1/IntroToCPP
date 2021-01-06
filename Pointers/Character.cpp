@@ -53,18 +53,20 @@ bool Character::checkHealth()
 bool Character::save()
 {
 	std::fstream file;
+	Character* player = this;
 
 	file.open("save.txt", std::ios::out);
 
 	if (!file.is_open())
-		return 1;
+		return false;
 
-	file << "Placeholder" << std::endl;
-	file << m_health << std::endl;
+	file.write((char*)&player, sizeof(Character));
+	/*file << m_health << std::endl;
 	file << m_damage << std::endl;
-	file << m_defense;
+	file << m_defense;*/
 
 	file.close();
+	return true;
 }
 
 bool Character::load()
@@ -75,7 +77,7 @@ bool Character::load()
 
 	if (!file.is_open())
 	{
-		return 1;
+		return false;
 	}
 
 	file >> m_health;
@@ -83,18 +85,55 @@ bool Character::load()
 	file >> m_defense;
 
 	file.close();
+	return true;
 }
 
+//Saves Character to binary file.
 bool Character::saveBinCharacter()
 {
 	std::fstream file;
+	Character* player = this;
 
-	return false;
+	file.open("save.dat", std::ios::out | std::ios::binary);
+
+	if (!file.is_open())
+		return false;
+
+	file.write((char*)&player, sizeof(Character));
+	file.close();
+	return true;
 }
 
-bool Character::loadBinCharacter()
+//Loads Character from Binary file.
+bool Character::loadBinCharacter(Character* player)
 {
+	//creates a temporary character pointer
+	Character* playerStats = this;
 	std::fstream file;
+	
+	file.open("save.dat", std::ios::in | std::ios::binary);
 
-	return false;
+	if (!file.is_open())
+		return false;
+
+	//Position the marker to two characters away from the beginning.
+	//file.seekg(sizeof(Character) * 2, std::ios::beg);
+
+	//Set the character to be the value read from the file.
+	//file.read((char*)&playerStats, sizeof(Character));
+	file >> playerStats->m_health;
+	file >> playerStats->m_damage;
+	file >> playerStats->m_defense;
+
+	std::cout << playerStats->m_health;
+	std::cout << playerStats->m_damage;
+	std::cout << playerStats->m_defense;
+	system("pause");
+
+	//Close the file.
+	file.close();
+
+	//sets player to playerstats
+	player = playerStats;
+	return true;
 }

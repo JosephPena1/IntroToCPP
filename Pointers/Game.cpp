@@ -2,7 +2,7 @@
 #include <fstream>
 #include "Game.h"
 
-void Game::run() //Put placeholder names for loading file, Make a variable to choose a character to load from
+void Game::run() //Make a variable to choose a character to load from
 {
 	start();
 
@@ -15,56 +15,21 @@ void Game::run() //Put placeholder names for loading file, Make a variable to ch
 	end();
 }
 
-void Game::drawName(char playerName[], Character* target)
+//Draws name
+
+void Game::drawName(char playerName[])
 {
-	std::cout << m_player1Name << "'s health: " << m_player1->getHealth() << std::endl;
-	std::cout << m_player1Name << "'s defense: " << m_player1->getDefense() << std::endl;
+	std::cout << "Alexa's health: " << m_player1->getHealth() << std::endl;
+	std::cout << "Alexa's defense: " << m_player1->getDefense() << std::endl;
 	std::cout << std::endl;
-	std::cout << m_player2Name << "'s health: " << m_player2->getHealth() << std::endl;
-	std::cout << m_player2Name << "'s defense: " << m_player2->getDefense() << std::endl;
+	std::cout << "Despacito's health: " << m_player2->getHealth() << std::endl;
+	std::cout << "Despacito's defense: " << m_player2->getDefense() << std::endl;
 	std::cout << std::endl;
 	std::cout << playerName << "'s turn." << std::endl;
 	std::cout << "[1] Attack" << std::endl;
+	std::cout << "[2] Defend" << std::endl;
 	std::cout << std::endl;
 	std::cout << "> ";
-}
-
-//Saves player to a binary file.
-bool Game::saveBin()
-{
-	std::fstream file;
-	
-	file.open("save.dat", std::ios::app | std::ios::binary);
-
-	if (!file.is_open())
-		return false;
-
-	file.write((char*)&m_player1, sizeof(Character));
-	file.write((char*)&m_player2, sizeof(Character));
-	file.close();
-	return true;
-}
-
-//loads player from a binary file. [WIP] Save player 2's stats.
-bool Game::loadBin()
-{
-	Character player = Character();
-	std::fstream file;
-
-	file.open("save.dat", std::ios::in | std::ios::binary);
-
-	if (file.is_open())
-		return false;
-
-	file.seekg(sizeof(Character) * 2, std::ios::beg);
-
-	file.read((char*)&player, sizeof(Character));
-
-	std::cout << player.getHealth() << std::endl;
-	std::cout << player.getDamage() << std::endl;
-
-	file.close();
-	return true;
 }
 
 void Game::start()
@@ -80,41 +45,33 @@ void Game::start()
 	switch (startChoice)
 	{
 	case 1:
-		std::cout << "Enter Player 1's name" << std::endl;
-		std::cout << "> ";
-		std::cin >> m_player1Name;
 		system("cls");
-
-		std::cout << "Enter Player 2's name" << std::endl;
-		std::cout << "> ";
-		std::cin >> m_player2Name;
-		system("cls");
-
 		m_player1 = new Character(50, 10, 2);
 		m_player2 = new Character(25, 5, 1);
 
-		saveBin();
-		//m_player1->save();
-		//m_player2->save();
+		m_player1->saveBinCharacter();
 		break;
 
 	case 2:
-		loadBin();
-		//m_player1->load();
-		//m_player2->load();
+		system("cls");
+		m_player1 = new Character(0, 0, 0);
+		m_player1->loadBinCharacter(m_player1);
 		break;
 	}
 }
 
 void Game::update()
 {
+	char player1Name[] = "Alexa";
+	char player2Name[] = "Despacito";
 	int player1Choice = 0;
 	int player2Choice = 0;
 
 	while (!m_player1->checkHealth() && !m_player2->checkHealth())
 	{
 		//player 1's turn.
-		drawName(m_player1Name, m_player2);
+		drawName(player1Name);
+
 		while (player1Choice == 0)
 		{
 			std::cin >> player1Choice;
@@ -122,13 +79,13 @@ void Game::update()
 			{
 			case 1:
 				m_player1->attack(m_player2);
-				std::cout << m_player2Name << " took " << m_player1->getDamage() << std::endl;
+				std::cout << "Player2 took " << m_player1->getDamage() << std::endl;
 				player1Choice = 1;
 				break;
 
 			case 2:
 				if (m_player1->incDefense())
-					std::cout << m_player1Name << " uses harden, +2 defense" << std::endl;
+					std::cout << "Player1 uses harden, +2 defense" << std::endl;
 
 				player1Choice = 2;
 				break;
@@ -141,7 +98,7 @@ void Game::update()
 		//checks if player 2 is alive
 		if (m_player2->checkHealth())
 		{
-			std::cout << m_player2Name << " is dead." << std::endl;
+			std::cout << "Player2 is dead." << std::endl;
 			system("pause");
 			system("cls");
 			return;
@@ -150,7 +107,8 @@ void Game::update()
 		system("cls");
 
 		//player 2's turn.
-		drawName(m_player2Name, m_player1);
+		drawName(player2Name);
+
 		while (player2Choice == 0)
 		{
 			std::cin >> player2Choice;
@@ -158,13 +116,13 @@ void Game::update()
 			{
 			case 1:
 				m_player2->attack(m_player1);
-				std::cout << m_player1Name << " took " << m_player2->getDamage() << std::endl;
+				std::cout << " Player1 took " << m_player2->getDamage() << std::endl;
 				player2Choice = 1;
 				break;
 
 			case 2:
 				if (m_player2->incDefense())
-					std::cout << m_player2Name << " uses harden, +2 defense" << std::endl;
+					std::cout << "Player2 uses harden, +2 defense" << std::endl;
 
 				player2Choice = 2;
 				break;
@@ -178,7 +136,7 @@ void Game::update()
 		//checks if player 1 is alive
 		if (m_player1->checkHealth())
 		{
-			std::cout << m_player1Name << " is dead." << std::endl;
+			std::cout << "Player1 is dead." << std::endl;
 			system("pause");
 			system("cls");
 			return;
@@ -194,9 +152,9 @@ void Game::update()
 void Game::draw()
 {
 	if (m_player1->getHealth() <= 0)
-		std::cout << m_player2Name << " Wins!" << std::endl;
+		std::cout << "Player2 Wins!" << std::endl;
 	else
-		std::cout << m_player1Name << " Wins!" << std::endl;
+		std::cout << "Player1 Wins!" << std::endl;
 
 	system("pause");
 	setGameOver(true);

@@ -6,13 +6,12 @@ public:
 	Character(float health, float damage, float defense);
 	void attack(Character* other);
 	float takeDamage(float damageAmount);
-	void nameCharacter();
 	bool incDefense();
 	bool checkHealth();
 	bool save();
 	bool load();
 	bool saveBinCharacter();
-	bool loadBinCharacter();
+	bool loadBinCharacter(Character* player);
 	float getHealth() { return m_health; }
 	float getDamage() { return m_damage; }
 	float getDefense() { return m_defense; }
