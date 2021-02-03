@@ -94,7 +94,7 @@ bool Character::saveBinCharacter()
 	std::fstream file;
 	Character* player = this;
 
-	file.open("save.dat", std::ios::out | std::ios::binary);
+	file.open("save.dat", std::ios::in | std::ios::binary);
 
 	if (!file.is_open())
 		return false;
@@ -108,10 +108,10 @@ bool Character::saveBinCharacter()
 bool Character::loadBinCharacter(Character* player)
 {
 	//creates a temporary character pointer
-	Character* playerStats = this;
+	Character* playerStats = player;
 	std::fstream file;
-	
-	file.open("save.dat", std::ios::in | std::ios::binary);
+
+	file.open("save.dat", std::ios::out | std::ios::binary);
 
 	if (!file.is_open())
 		return false;
@@ -121,13 +121,15 @@ bool Character::loadBinCharacter(Character* player)
 
 	//Set the character to be the value read from the file.
 	//file.read((char*)&playerStats, sizeof(Character));
-	file >> playerStats->m_health;
-	file >> playerStats->m_damage;
-	file >> playerStats->m_defense;
 
-	std::cout << playerStats->m_health;
-	std::cout << playerStats->m_damage;
-	std::cout << playerStats->m_defense;
+	file.read((char*)&player, sizeof(Character));
+	file >> player->m_health;
+	file >> player->m_damage;
+	file >> player->m_defense;
+
+	std::cout << player->getHealth() << std::endl;
+	std::cout << player->getDamage() << std::endl;
+	std::cout << player->getDefense() << std::endl;
 	system("pause");
 
 	//Close the file.
@@ -135,5 +137,6 @@ bool Character::loadBinCharacter(Character* player)
 
 	//sets player to playerstats
 	player = playerStats;
+
 	return true;
 }

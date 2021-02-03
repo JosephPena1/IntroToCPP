@@ -16,7 +16,6 @@ void Game::run() //Make a variable to choose a character to load from
 }
 
 //Draws name
-
 void Game::drawName(char playerName[])
 {
 	std::cout << "Alexa's health: " << m_player1->getHealth() << std::endl;
@@ -42,11 +41,13 @@ void Game::start()
 	std::cout << "> ";
 	std::cin >> startChoice;
 
+	//if startChoice is 1, start new game.
+	//if startChoice is 2, load game.
 	switch (startChoice)
 	{
 	case 1:
 		system("cls");
-		m_player1 = new Character(50, 10, 2);
+		m_player1 = new Character(47, 33, 26);
 		m_player2 = new Character(25, 5, 1);
 
 		m_player1->saveBinCharacter();
@@ -54,16 +55,19 @@ void Game::start()
 
 	case 2:
 		system("cls");
-		m_player1 = new Character(0, 0, 0);
-		m_player1->loadBinCharacter(m_player1);
+		m_player1 = new Character();
+		
+		Character::loadBinCharacter(m_player1);
+		//std::cout << m_player1->getDamage();
+		m_player2 = new Character();
 		break;
 	}
 }
 
 void Game::update()
 {
-	char player1Name[] = "Alexa";
-	char player2Name[] = "Despacito";
+	char player1Name[] = "Potion Sellah";
+	char player2Name[] = "Knight";
 	int player1Choice = 0;
 	int player2Choice = 0;
 

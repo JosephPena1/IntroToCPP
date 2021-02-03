@@ -39,7 +39,7 @@ bool binaryFileWrite()
 	file.close();
 
 	///Reading file
-	//Create a character to styore the loaded data.
+	//Create a character to store the loaded data.
 	Character player4 = Character();
 
 	//Open the file to load from.

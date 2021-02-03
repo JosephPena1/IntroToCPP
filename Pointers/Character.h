@@ -11,7 +11,7 @@ public:
 	bool save();
 	bool load();
 	bool saveBinCharacter();
-	bool loadBinCharacter(Character* player);
+	static bool loadBinCharacter(Character* player);
 	float getHealth() { return m_health; }
 	float getDamage() { return m_damage; }
 	float getDefense() { return m_defense; }
