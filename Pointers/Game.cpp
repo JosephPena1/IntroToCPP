@@ -18,11 +18,11 @@ void Game::run() //Make a variable to choose a character to load from
 //Draws name
 void Game::drawName(char playerName[])
 {
-	std::cout << "Alexa's health: " << m_player1->getHealth() << std::endl;
-	std::cout << "Alexa's defense: " << m_player1->getDefense() << std::endl;
+	std::cout << "Potion Sellah's health: " << m_player1->getHealth() << std::endl;
+	std::cout << "Potion Sellah's defense: " << m_player1->getDefense() << std::endl;
 	std::cout << std::endl;
-	std::cout << "Despacito's health: " << m_player2->getHealth() << std::endl;
-	std::cout << "Despacito's defense: " << m_player2->getDefense() << std::endl;
+	std::cout << "Knight's health: " << m_player2->getHealth() << std::endl;
+	std::cout << "Knight's defense: " << m_player2->getDefense() << std::endl;
 	std::cout << std::endl;
 	std::cout << playerName << "'s turn." << std::endl;
 	std::cout << "[1] Attack" << std::endl;
@@ -47,7 +47,7 @@ void Game::start()
 	{
 	case 1:
 		system("cls");
-		m_player1 = new Character(47, 33, 26);
+		m_player1 = new Character(50, 20, 2);
 		m_player2 = new Character(25, 5, 1);
 
 		m_player1->saveBinCharacter();
@@ -66,6 +66,7 @@ void Game::start()
 
 void Game::update()
 {
+	system("cls");
 	char player1Name[] = "Potion Sellah";
 	char player2Name[] = "Knight";
 	int player1Choice = 0;
@@ -83,13 +84,13 @@ void Game::update()
 			{
 			case 1:
 				m_player1->attack(m_player2);
-				std::cout << "Player2 took " << m_player1->getDamage() << std::endl;
+				std::cout << player2Name << " took " << m_player1->getDamage() - m_player2->getDefense() << std::endl;
 				player1Choice = 1;
 				break;
 
 			case 2:
 				if (m_player1->incDefense())
-					std::cout << "Player1 uses harden, +2 defense" << std::endl;
+					std::cout <<  player1Name << " uses harden, +2 defense" << std::endl;
 
 				player1Choice = 2;
 				break;
@@ -102,7 +103,7 @@ void Game::update()
 		//checks if player 2 is alive
 		if (m_player2->checkHealth())
 		{
-			std::cout << "Player2 is dead." << std::endl;
+			std::cout << player2Name << " is dead." << std::endl;
 			system("pause");
 			system("cls");
 			return;
@@ -120,13 +121,13 @@ void Game::update()
 			{
 			case 1:
 				m_player2->attack(m_player1);
-				std::cout << " Player1 took " << m_player2->getDamage() << std::endl;
+				std::cout << player1Name << " took " << m_player2->getDamage() - m_player1->getDefense() << std::endl;
 				player2Choice = 1;
 				break;
 
 			case 2:
 				if (m_player2->incDefense())
-					std::cout << "Player2 uses harden, +2 defense" << std::endl;
+					std::cout << player2Name << " uses harden, +2 defense" << std::endl;
 
 				player2Choice = 2;
 				break;
@@ -140,7 +141,7 @@ void Game::update()
 		//checks if player 1 is alive
 		if (m_player1->checkHealth())
 		{
-			std::cout << "Player1 is dead." << std::endl;
+			std::cout << player1Name << " is dead." << std::endl;
 			system("pause");
 			system("cls");
 			return;
